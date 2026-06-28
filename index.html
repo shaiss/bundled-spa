@@ -133,13 +133,13 @@ document.addEventListener('DOMContentLoaded', async function() {
       'img,svg,video,canvas,iframe{max-width:100%;height:auto}' +
       'table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}' +
       '@media (max-width:900px){' +
-      '#dc-root .__bundler-compare-table{width:100%!important;min-width:0!important}' +
-      '#dc-root .__bundler-mobile-header-row{display:none!important}' +
-      '#dc-root .__bundler-mobile-feature-row{display:block!important;min-height:0!important}' +
-      '#dc-root .__bundler-mobile-feature-title{position:static!important;left:auto!important;z-index:auto!important;flex:none!important;width:auto!important;border-right:none!important;padding:10px 12px!important}' +
-      '#dc-root .__bundler-mobile-feature-cell{position:static!important;left:auto!important;z-index:auto!important;flex:none!important;width:auto!important;border-right:none!important;border-top:1px solid rgba(255,255,255,.06)!important;justify-content:space-between!important;padding:8px 12px!important;gap:10px}' +
-      '#dc-root .__bundler-mobile-feature-cell::before{content:attr(data-col-label);font:600 10px/1.2 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#8c8475;text-align:left;max-width:45%}' +
-      '#dc-root .__bundler-mobile-unstick{position:static!important;left:auto!important}' +
+      '.__bundler-compare-table{width:100%!important;min-width:0!important}' +
+      '.__bundler-mobile-header-row{display:none!important}' +
+      '.__bundler-mobile-feature-row{display:block!important;min-height:0!important}' +
+      '.__bundler-mobile-feature-title{position:static!important;left:auto!important;z-index:auto!important;flex:none!important;width:auto!important;border-right:none!important;padding:10px 12px!important}' +
+      '.__bundler-mobile-feature-cell{position:static!important;left:auto!important;z-index:auto!important;flex:none!important;width:auto!important;border-right:none!important;border-top:1px solid rgba(255,255,255,.06)!important;justify-content:space-between!important;padding:8px 12px!important;gap:10px}' +
+      '.__bundler-mobile-feature-cell::before{content:attr(data-col-label);font:600 10px/1.2 "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#8c8475;text-align:left;max-width:45%}' +
+      '.__bundler-mobile-unstick{position:static!important;left:auto!important}' +
       '}' +
       '</' + 'style>';
     const headInjection = resourceScript + mobileBaseStyle;
@@ -185,8 +185,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     const installMobileComparisonView = () => {
       const apply = () => {
-        const root = document.getElementById('dc-root');
-        if (!root) return;
+        const root = document.getElementById('dc-root') || document.body;
         const headerRow = root.querySelector('div[style*="position:sticky"][style*="top:0"][style*="border-bottom"]');
         if (!headerRow) return;
         const compareTable = headerRow.closest('div[style*="width:max-content"]');
