@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Bundled Page</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -10,6 +11,10 @@
     #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #faf9f5; z-index: 9999; }
     #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
     #__bundler_placeholder { color: #999; font-size: 14px; }
+    @media (max-width: 640px) {
+      #__bundler_loading { left: 12px; right: 12px; bottom: 12px; padding: 8px 10px; text-align: center; }
+      #__bundler_thumbnail svg { max-width: 100vw; max-height: 100vh; }
+    }
   </style>
   <noscript>
     <style>#__bundler_loading { display: none; }</style>
@@ -123,6 +128,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     const resourceScript = '<script>window.__resources = ' +
       JSON.stringify(resourceMap).split('</' + 'script>').join('<\\/' + 'script>') +
       ';</' + 'script>';
+    const mobileBaseStyle = '<style id="__bundler_mobile_base">' +
+      'html{-webkit-text-size-adjust:100%}' +
+      'img,svg,video,canvas,iframe{max-width:100%;height:auto}' +
+      'table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}' +
+      '</' + 'style>';
+    const headInjection = resourceScript + mobileBaseStyle;
     // Inject after <head> so the DOCTYPE stays first; prepending the script
     // would push the parser into quirks mode. DOMParser always emits a <head>
     // (synthesizing one if the source HTML omitted it) but may carry
@@ -131,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const headOpen = template.match(/<head[^>]*>/i);
     if (headOpen) {
       const i = headOpen.index + headOpen[0].length;
-      template = template.slice(0, i) + resourceScript + template.slice(i);
+      template = template.slice(0, i) + headInjection + template.slice(i);
     }
 
     // Parse the template and swap the root element. Scripts inserted via
